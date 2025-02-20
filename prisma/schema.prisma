@@ -16,7 +16,7 @@ datasource db {
 model Restaurant {
   id             String         @id @default(uuid())
   name           String
-  slug           String
+  slug           String         @unique
   description    String
   avatarImageUrl String
   coverImageUrl  String
@@ -24,7 +24,7 @@ model Restaurant {
   products       Product[]
   orders         Order[]
   createdAt      DateTime       @default(now())
-  updateAt       DateTime       @updatedAt
+  updatedAt      DateTime       @updatedAt
 }
 
 model MenuCategory {
@@ -34,7 +34,7 @@ model MenuCategory {
   restaurantId String
   products     Product[]
   createdAt    DateTime   @default(now())
-  updateAt     DateTime   @updatedAt
+  updatedAt    DateTime   @updatedAt
 }
 
 model Product {
@@ -50,7 +50,7 @@ model Product {
   menuCategory   MenuCategory   @relation(fields: [menuCategoryId], references: [id], onDelete: Cascade)
   menuCategoryId String
   createdAt      DateTime       @default(now())
-  updateAt       DateTime       @updatedAt
+  updatedAt      DateTime       @updatedAt
 }
 
 model Order {
@@ -62,19 +62,19 @@ model Order {
   restaurantId      String
   orderProducts     OrderProduct[]
   createdAt         DateTime          @default(now())
-  updateAt          DateTime          @updatedAt
+  updatedAt         DateTime          @updatedAt
 }
 
 model OrderProduct {
   id        String   @id @default(uuid())
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
-  Order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId   Int
   quantity  Int
   price     Float
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 enum OrderStatus {
